@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>단어 학습 카드</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      background: #f5f7fb;
+      color: #333;
+    }
+    .container {
+      width: 90%;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 50px 20px;
+      text-align: center;
+    }
+    h1 { margin-bottom: 10px; }
+    .subtitle { color: #777; margin-bottom: 35px; }
+    .word-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+    .word-button {
+      border: none;
+      border-radius: 16px;
+      padding: 25px 15px;
+      background: white;
+      font-size: 22px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,.08);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .word-button:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 18px rgba(0,0,0,.12);
+    }
+    #detailPage { display: none; }
+    .word-card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.1);
+    }
+    .word-image {
+      width: 100%;
+      max-width: 400px;
+      height: 280px;
+      object-fit: contain;
+      border-radius: 15px;
+      margin: 20px 0;
+      background: #eee;
+    }
+    .description {
+      font-size: 18px;
+      line-height: 1.7;
+    }
+    .home-button {
+      margin-top: 25px;
+      padding: 13px 25px;
+      border: none;
+      border-radius: 10px;
+      background: #333;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .home-button:hover { background: #555; }
+    @media (max-width: 600px) {
+      .word-buttons { grid-template-columns: 1fr; }
+      .container { padding: 30px 15px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="homePage" class="container">
+    <h1>🌱 단어 학습</h1>
+    <p class="subtitle">궁금한 단어를 선택하세요.</p>
+    <div class="word-buttons">
+      <button class="word-button" onclick="showWord('apple')">🍎 사과</button>
+      <button class="word-button" onclick="showWord('cat')">🐱 고양이</button>
+      <button class="word-button" onclick="showWord('dog')">🐶 강아지</button>
+      <button class="word-button" onclick="showWord('flower')">🌸 꽃</button>
+      <button class="word-button" onclick="showWord('car')">🚗 자동차</button>
+      <button class="word-button" onclick="showWord('sun')">☀️ 태양</button>
+    </div>
+  </div>
+
+  <div id="detailPage" class="container">
+    <div class="word-card">
+      <h1 id="wordTitle"></h1>
+      <img id="wordImage" class="word-image" src="" alt="단어 이미지">
+      <p id="wordDescription" class="description"></p>
+      <button class="home-button" onclick="goHome()">🏠 처음으로</button>
+    </div>
+  </div>
+
+  <script>
+    const words = {
+      apple: {
+        name: "사과",
+        image: "https://media.giphy.com/media/3oKIPsx2VAYAgEHC12/giphy.gif",
+        description: "사과는 둥글고 달콤한 과일이에요. 빨간색, 초록색, 노란색 등 여러 종류가 있어요."
+      },
+      cat: {
+        name: "고양이",
+        image: "https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif",
+        description: "고양이는 귀여운 반려동물이에요. 부드러운 털을 가지고 있고 야옹하고 울어요."
+      },
+      dog: {
+        name: "강아지",
+        image: "https://media.giphy.com/media/mCRJDo24UvJMA/giphy.gif",
+        description: "강아지는 사람과 친하게 지내는 동물이에요. 꼬리를 흔들며 반가움을 표현하기도 해요."
+      },
+      flower: {
+        name: "꽃",
+        image: "https://media.giphy.com/media/l4FGyGSeCm7pOhzKo/giphy.gif",
+        description: "꽃은 다양한 색과 향기를 가지고 있어요. 봄이 되면 많은 꽃을 볼 수 있어요."
+      },
+      car: {
+        name: "자동차",
+        image: "https://media.giphy.com/media/3o7aCYDNm1kXgSUgXm/giphy.gif",
+        description: "자동차는 사람이나 물건을 싣고 도로를 이동하는 교통수단이에요."
+      },
+      sun: {
+        name: "태양",
+        image: "https://media.giphy.com/media/ctGFLebG1AqK4/giphy.gif",
+        description: "태양은 지구에 빛과 열을 주는 별이에요. 낮에 하늘에서 밝게 빛나요."
+      }
+    };
+
+    function showWord(wordKey) {
+      const word = words[wordKey];
+      document.getElementById("wordTitle").textContent = word.name;
+      document.getElementById("wordImage").src = word.image;
+      document.getElementById("wordImage").alt = word.name + " 이미지";
+      document.getElementById("wordDescription").textContent = word.description;
+      document.getElementById("homePage").style.display = "none";
+      document.getElementById("detailPage").style.display = "block";
+      window.scrollTo(0, 0);
+    }
+
+    function goHome() {
+      document.getElementById("detailPage").style.display = "none";
+      document.getElementById("homePage").style.display = "block";
+      window.scrollTo(0, 0);
+    }
+  </script>
+</body>
+</html>
